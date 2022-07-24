@@ -1,0 +1,2 @@
+git pull origin main --allow-unrelated-histories//pull
+git config --global http.sslVerify "false"//ssl错误
