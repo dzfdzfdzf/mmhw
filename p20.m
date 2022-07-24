@@ -17,6 +17,7 @@ end
 figure(2);
 normplot(x); %正态分布概率曲线
 
+
 [muhat,sigmahat,muci,sigmaci] = normfit(x); %估计参数
 fprintf("μ估计值为%d\n",muhat);
 fprintf("σ估计值为%d\n",sigmahat);
