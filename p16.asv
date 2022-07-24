@@ -1,0 +1,78 @@
+clear;clc
+x1 = -5:0.1:5;
+x2 = x1;
+[X1,X2]=meshgrid(x1,x2);
+ = exp(X1.^2 + X2.^2);
+
+figure(1);
+mesh(X1,X2,z);
+title('标准函数图像');
+hold on;
+nput=2;
+HideLayer=5;
+Output=1;
+%权值及阈值初始化
+w1=rands(HideLayer,Input);%隐含层的权值和阈值
+b1=rands(HideLayer,1);
+w2=rands(Output,HideLayer);%输出层的权值和阈值
+b2=rands(Output,1);
+% dw1=zeros(HideLayer,Input);
+% dw2=zeros(Output,HideLayer);
+error = 0.01;%误差阈值
+xite=0.3;         %学习速率
+M=201;
+for m1=1:M
+    for m2=1:M
+        y=sin(pi*x1(m1))*cos(pi*x2(m2));
+    for k=1:50
+        for i=1:HideLayer%隐层的输出
+            HOut(i)=logsig(x1(m1)*w1(i,1)+x2(m2)*w1(i,2)+b1(i,1));
+        end
+        a=0;%输出层
+        for j=1:HideLayer%求解输出层的输入
+            Out_In(j)=HOut(j)*w2(1,j);
+            a=a+Out_In(j);
+        end
+        a=a+b2;
+        if y>=0 %输出层的输出
+             Out_Out = logsig(a);
+        elseif y<0
+             Out_Out = -logsig(a);
+        end
+       %% 误差
+        e0 = y - Out_Out;
+        e = e0^2/2;
+        Delta_Out = -e0 * (1 - Out_Out) * Out_Out;
+        for k = 1:HideLayer  
+            Delta_HideLayer(k) = Delta_Out * w2(1,k) * (1 - HOut(k)) * HOut(k);
+        end
+        
+        for k=1:HideLayer
+            w2(1,k)=w2(1,k)-xite*Delta_Out*HOut(k);
+        end
+        b2(1,1)=b2(1,1)-xite*Delta_Out;
+        
+        for i=1:HideLayer
+            for j=1:Input
+                if j==1
+                    w1(i,j)=xite*Delta_HideLayer(i)*x1(m1);
+                else
+                     w1(i,j)=xite*Delta_HideLayer(i)*x2(m2);
+                end
+%                 b1(i,1)=b1(i,1)+xite*Delta_HideLayer(i);
+            end
+            b1(i,1)=b1(i,1)+xite*Delta_HideLayer(i);
+        end
+        
+        %% 判断停止迭代
+        if e < error
+            break;
+        end
+    end
+    y1(m2,m1) = Out_Out;%这里注意哈
+    e1(m2,m1) = e;
+    end
+end
+figure;
+mesh(X1,X2,y1);
+title('BP神经网络逼近sin(pi*x1)*cos(pi*x2)图像');
