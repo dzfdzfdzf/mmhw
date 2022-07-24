@@ -13,8 +13,10 @@ if(h == 0)
     disp("分布具有正态性");
 else
     disp("分布不具有正态性");
-    endigure(2);
+end 
+figure(2);
 normplot(x); %正态分布概率曲线
+
 
 [muhat,sigmahat,muci,sigmaci] = normfit(x); %估计参数
 fprintf("μ估计值为%d\n",muhat);
