@@ -1,0 +1,9 @@
+f=@(x)2*x(1)^2-2*x(1)*x(2)+2*x(2)^2-6*x(1);
+x0=[0,0];
+A=[3,4;-1,4];
+b=[6;2];
+lb=[0,0];
+options = optimoptions(@fmincon,'Algorithm','active-set','MaxIterations',1000);
+[x,y]=fmincon(f,x0,A,b,[],[],lb,[],[],options);
+f2=@(x)2*x(1)^2-2*x(1)*x(2)+2*x(2)^2-6*x(1);
+[x2,y2]=ga(f2,2,A,b,[],[],lb,[],[],1);
