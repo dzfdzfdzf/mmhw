@@ -13,7 +13,7 @@ if(h == 0)
     disp("分布具有正态性");
 else
     disp("分布不具有正态性");
-end 
+end
 figure(2);
 normplot(x); %正态分布概率曲线
 
