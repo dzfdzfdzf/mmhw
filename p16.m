@@ -19,7 +19,7 @@ net.trainParam.goal=1e-10;
 net.trainParam.lr = 0.05; 
 net = train(net,p1,target);
 res = sim(net,p1);
-res1=reshape(res,101,101);
+res1=reshape(res,51,51);
 figure(2)
 mesh(x,y,res1);
 title('逼近函数图像');
